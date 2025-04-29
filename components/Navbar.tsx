@@ -1,22 +1,35 @@
 import { Lightbulb } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Navbar = () => {
     return (
-        <nav className="flex max-w-[92%] m-auto items-center justify-between px-6 py-2 ">
-            <div className="flex items-center space-x-2">
-                <Image alt='logo' src="/images/logo.png" width={100} height={10} />
-            </div>
+        <nav className="sticky top-0 left-0 right-0 z-[99] bg-white/70 backdrop-blur-sm py-2">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+                {/* Logo */}
+                <div className="flex items-center">
+                    <Link href="/">
+                        <Image alt="logo" src="/images/logo.png" width={130} height={40} />
+                    </Link>
+                </div>
 
-            <div className="flex items-center space-x-4">
-                <button className="flex items-center bg-[#329b74] text-white px-[30px] py-[10px]  transition">
-                    <Lightbulb className="mr-2" />
-                    Request Demo
-                </button>
-                <button className="px-4 py-2 border border-orange-500 text-orange-500  hover:bg-orange-100 transition">
-                    Sign up
-                </button>
+                {/* Links */}
+                <div className="flex items-center space-x-3">
+                    <Link
+                        href="#requestDemoSection"
+                        className="flex items-center bg-[#329b74] text-white px-4 py-2 text-sm sm:text-base transition"
+                    >
+                        <Lightbulb className="mr-2" size={18} />
+                        Request Demo
+                    </Link>
+                    <Link
+                        href="/signup"
+                        className="px-4 py-2 border border-orange-500 text-orange-500 hover:bg-orange-100 transition text-sm sm:text-base"
+                    >
+                        Sign up
+                    </Link>
+                </div>
             </div>
         </nav>
     );

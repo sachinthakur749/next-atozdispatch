@@ -13,7 +13,7 @@ const services = [
 export default function BannerCards() {
     return (
         <div className="py-8 px-4 max-w-7xl mx-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
                 {services.map((service, index) => (
                     <div
                         key={index}

@@ -29,15 +29,15 @@ export default function ClientsSection() {
 
                     <h3 className="text-2xl font-semibold mb-6">Our Recent Clients</h3>
 
-                    <div className="flex  gap-6 items-center justify-center mb-10">
+                    <div className="grid  grid-cols-2 md:grid-cols-9  gap-4 items-center justify-center mb-10">
                         {clients.map((client, index) => (
-                            <div key={index} className="bg-white shadow-md rounded-lg flex justify-center items-center">
+                            <div key={index} className=" rounded-lg  flex justify-center items-center">
                                 <Image
                                     src={client.src}
                                     alt={client.name}
-                                    width={80}
-                                    height={80}
-                                    className="object-contain"
+                                    width={70}
+                                    height={70}
+                                    className="object-contain rounded-[5px]"
                                 />
                             </div>
                         ))}

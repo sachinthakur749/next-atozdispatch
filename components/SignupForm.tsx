@@ -27,9 +27,8 @@ const ColorPicker = ({ control, name }) => {
             {colors.map((color) => (
               <div
                 key={color}
-                className={`compact-color-card ${
-                  field.value === color ? "selected" : ""
-                }`}
+                className={`compact-color-card ${field.value === color ? "selected" : ""
+                  }`}
                 style={{ backgroundColor: color }}
                 onClick={() => {
                   setSelectedColor(color);
@@ -499,11 +498,10 @@ const SignupForm = () => {
                 country={"us"}
                 value={field.value}
                 onChange={(phone) => field.onChange("+" + phone)}
-                className={` w-full ${
-                  errors.phone
-                    ? "border-red-500 border-[2px]"
-                    : "border-[#cccccc] border-[1px]"
-                } bg-light_gray mt-[5px] rounded-[4px]`}
+                className={` w-full ${errors.phone
+                  ? "border-red-500 border-[2px]"
+                  : "border-[#cccccc] border-[1px]"
+                  } bg-light_gray mt-[5px] rounded-[4px]`}
               />
             )}
           />
@@ -683,7 +681,7 @@ const SignupForm = () => {
         )}
 
         <div className="branding-section">
-          <h5 className="signup-h5">Get Your Own Branding</h5>
+          <h5 className="signup-h5 !w-full ">Get Your Own Branding</h5>
           <p className="notes" style={{ textAlign: "center" }}>
             To ensure AtoZ Dispatch is customized for your business.
           </p>
@@ -718,7 +716,7 @@ const SignupForm = () => {
               flexDirection: "column",
             }}
           >
-            <h5 className="signup-h5">Get paid to your own account.</h5>
+            <h5 className="signup-h5 !w-full">Get paid to your own account.</h5>
             <img
               width={200}
               src="/images/credit-card.png"

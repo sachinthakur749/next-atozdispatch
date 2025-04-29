@@ -1,6 +1,9 @@
 import { CirclePlay } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
+import { Globe } from 'lucide-react';
+import Link from 'next/link';
+
 
 const FeaturesSection = () => {
     const servicesData = [
@@ -54,10 +57,11 @@ const FeaturesSection = () => {
                             />
                         </div>
 
-                        {/* Content side */}
                         <div className={`${index % 2 !== 0 ? 'md:order-1' : ''}`}>
-                            <h3 className="text-5xl font-bold text-blue-600 mb-2">{service.num.replace('.', '')}</h3>
-                            <h4 className="text-2xl font-semibold mb-4 uppercase">{service.title}</h4>
+                            <div className='relative'>
+                                <h4 className="text-[30px] font-semibold mb-4 uppercase">{service.title}</h4>
+                                <h3 className="absolute left-[10px] text-[#003273] top-[-40px]  text-[74px]  leading-[78px] opacity-70  font-bold  mb-2">{service.num.replace('.', '')}.</h3>
+                            </div>
                             <p className="text-gray-700 mb-6">{service.description}</p>
 
                             <div className="flex items-center gap-4 mb-4">
@@ -71,23 +75,27 @@ const FeaturesSection = () => {
 
                             {(service.title === "Passenger App" || service.title === "Driver App") ? (
                                 <div className="flex gap-2">
-                                    <Image
-                                        src="/images/app_store.webp"
-                                        alt="App Store"
-                                        width={120}
-                                        height={40}
-                                    />
-                                    <Image
-                                        src="/images/google_play.png"
-                                        alt="Google Play"
-                                        width={120}
-                                        height={40}
-                                    />
+                                    <Link target="_blank" href="https://apps.apple.com/us/app/a-to-z-dispatch/id6639615450" >
+                                        <Image
+                                            src="/images/app_store.webp"
+                                            alt="App Store"
+                                            width={120}
+                                            height={40}
+                                        />
+                                    </Link>
+                                    <Link target="_blank" href="https://play.google.com/store/apps/details?id=com.a2z.dispatch" >
+                                        <Image
+                                            src="/images/google_play.png"
+                                            alt="Google Play"
+                                            width={120}
+                                            height={40}
+                                        />
+                                    </Link>
                                 </div>
                             ) : (
-                                <div>
-                                    sd
-                                </div>
+                                <Link target='_blank' href="https://yourcompany.atozdispatch.com/" className='bg-black flex items-center gap-1 text-white w-max px-5 py-2 rounded-sm ' >
+                                    <Globe />  Web Version
+                                </Link>
                             )}
                         </div>
                     </div>
