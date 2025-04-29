@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export async function dataFetcher(url) {
+export async function dataFetcher(url:string) {
   const cookieStore = cookies();
   let accessToken = (await cookieStore).get("api_token")?.value;
 
