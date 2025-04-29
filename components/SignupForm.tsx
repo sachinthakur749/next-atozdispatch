@@ -27,8 +27,9 @@ const ColorPicker = ({ control, name }) => {
             {colors.map((color) => (
               <div
                 key={color}
-                className={`compact-color-card ${field.value === color ? "selected" : ""
-                  }`}
+                className={`compact-color-card ${
+                  field.value === color ? "selected" : ""
+                }`}
                 style={{ backgroundColor: color }}
                 onClick={() => {
                   setSelectedColor(color);
@@ -498,10 +499,11 @@ const SignupForm = () => {
                 country={"us"}
                 value={field.value}
                 onChange={(phone) => field.onChange("+" + phone)}
-                className={` w-full ${errors.phone
-                  ? "border-red-500 border-[2px]"
-                  : "border-[#cccccc] border-[1px]"
-                  } bg-light_gray mt-[5px] rounded-[4px]`}
+                className={` w-full ${
+                  errors.phone
+                    ? "border-red-500 border-[2px]"
+                    : "border-[#cccccc] border-[1px]"
+                } bg-light_gray mt-[5px] rounded-[4px]`}
               />
             )}
           />
@@ -704,6 +706,58 @@ const SignupForm = () => {
               Primary Color <span className="optional">(optional)</span>
             </label>
             <ColorPicker control={control} name="primary_color" />
+          </div>
+
+          <div>
+            <label htmlFor="website_name">
+              Website Name
+              <span style={{ fontWeight: "500" }}>(optional)</span>{" "}
+            </label>
+            <Controller
+              name="website_name"
+              control={control}
+              render={({ field }) => (
+                <input
+                  style={{
+                    border: errors.website_name
+                      ? "1px solid rgba(255, 0, 0, 0.712)"
+                      : "",
+                  }}
+                  type="text"
+                  placeholder="Domain Name"
+                  {...field}
+                />
+              )}
+            />
+            {errors.website_name && (
+              <p className="error-message">*{errors.domain_name.message}</p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="app_name">
+              App Name
+              <span style={{ fontWeight: "500" }}>(optional)</span>{" "}
+            </label>
+            <Controller
+              name="app_name"
+              control={control}
+              render={({ field }) => (
+                <input
+                  style={{
+                    border: errors.app_name
+                      ? "1px solid rgba(255, 0, 0, 0.712)"
+                      : "",
+                  }}
+                  type="text"
+                  placeholder="App Name"
+                  {...field}
+                />
+              )}
+            />
+            {errors.app_name && (
+              <p className="error-message">*{errors.app_name.message}</p>
+            )}
           </div>
         </div>
 
