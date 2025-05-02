@@ -9,7 +9,7 @@ const Tab5 = () => {
       answer: (
         <div>
           Pricing is subscription-based, with options for monthly.
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th>Bssic</th>

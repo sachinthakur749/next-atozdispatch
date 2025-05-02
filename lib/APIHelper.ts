@@ -16,7 +16,7 @@ export const axiosHeader = () => {
   };
 };
 
-export const getRequest = (url) => {
+export const getRequest = (url, p0: { responseType: string }) => {
   return axios.get(apiUrl + url, axiosHeader()).then((res) => res.data);
 };
 

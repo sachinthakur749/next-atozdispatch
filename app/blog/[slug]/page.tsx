@@ -3,41 +3,41 @@ import Head from "next/head";
 import { dataFetcher } from "@/lib/dataFetcher";
 import Image from "next/image";
 import { Metadata } from "next";
-
-interface BlogDetailsProps {
-  params: {
-    slug: string;
-  };
-}
+import { use } from "react";
 
 export async function generateMetadata({
   params,
-}: BlogDetailsProps): Promise<Metadata> {
+}: {
+  params: Promise<{ slug: string }>
+}) {
   try {
-    const data = await dataFetcher(`blog/${params.slug}`);
-    const blog = data?.data;
+    const { slug } = await params;
+    const data = await dataFetcher(`blog/${slug}`)
+    const blog = data?.data
 
-    if (!blog) throw new Error("No data");
+    if (!blog) throw new Error("No data")
 
     return {
       title: blog.meta_title || blog.title,
-      description:
-        blog.meta_description ||
-        blog.short_description?.replace(/<[^>]+>/g, "").slice(0, 160),
-    };
+      description: blog.meta_description || blog.short_description?.replace(/<[^>]+>/g, "").slice(0, 160),
+    }
   } catch {
     return {
       title: "Blog Not Found",
-      description:
-        "The blog post you are looking for does not exist or failed to load.",
-    };
+      description: "The blog post you are looking for does not exist or failed to load.",
+    }
   }
 }
 
-export default async function BlogDetailsPage({ params }: BlogDetailsProps) {
+export default async function BlogDetailsPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
   let blog;
   try {
-    const data = await dataFetcher(`blog/${params.slug}`);
+    const { slug } = await params
+    const data = await dataFetcher(`blog/${slug}`);
     blog = data?.data;
   } catch (err) {
     console.error("Error fetching blog:", err);
@@ -50,16 +50,6 @@ export default async function BlogDetailsPage({ params }: BlogDetailsProps) {
 
   return (
     <>
-      <Head>
-        <title>{blog.meta_title || blog.title}</title>
-        <meta
-          name="description"
-          content={
-            blog.meta_description ||
-            blog.short_description?.replace(/<[^>]+>/g, "").slice(0, 160)
-          }
-        />
-      </Head>
 
       <article className="max-w-4xl mx-auto px-4 py-12">
         <h1 className="text-4xl font-bold mb-4 text-gray-900">{blog.title}</h1>

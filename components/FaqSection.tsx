@@ -15,7 +15,6 @@ const FaqSection = () => {
         textAlign: "left",
         fontWeight: 500,
         fontSize: "16px",
-        color: "#ec6408",
     };
     return (
         <div className="bg-[#1a1a1a] text-white py-12 px-6 md:px-16 flex flex-col md:flex-row justify-between items-start gap-10">

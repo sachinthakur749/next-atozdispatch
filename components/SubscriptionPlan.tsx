@@ -17,11 +17,11 @@ const SubscriptionPlan = () => {
                     </span>
                 </p>
 
-                <div className="mb-12">
+                {/* <div className="mb-12">
                     <button className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition">
                         ▶ Watch Demo
                     </button>
-                </div>
+                </div> */}
 
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                     {pricingPlanData.map((plan, index) => (

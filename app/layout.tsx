@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StripeKeyWrapper from "@/lib/StripeKeyWrapper";
+import LoadScript from "@/components/LoadScript";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +32,12 @@ export default function RootLayout({
         <meta name="description"
           content="Elevate your limo business online effortlessly with A to Z Dispatch. Fast, easy, and professional. Start now with 30 days Free Trial. Maximize revenue with All-in-One Limo Reservation Software with App. IOS & Android ready-to-use. Book demo now" />
         <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
         <link rel="canonical" href="https://atozdispatch.com" />
+        <link rel="stylesheet" href="/smart-app-banner.css" type="text/css" media="screen" />
+        <meta
+          name="google-site-verification"
+          content="kJHIYg5RqTFrGVc5VFT7r16_ubpXN2I2gkVRc6boahg"
+        />
 
         <meta property="og:title" content="Best Limo Reservation Software and App" />
         <meta property="og:description"
@@ -58,6 +63,7 @@ export default function RootLayout({
         <Navbar />
         <StripeKeyWrapper>{children}</StripeKeyWrapper>
         <Footer />
+        <LoadScript />
       </body>
     </html>
   );

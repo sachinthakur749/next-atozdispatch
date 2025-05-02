@@ -3,21 +3,8 @@
 import React from "react";
 import { Collapse } from "antd";
 
-const CustomCollapse = ({ textStyle, headerStyle }) => {
-  // const style = {
-  //   color: "#fff",
-  //   textAlign: "left",
-  //   fontWeight: 500,
-  //   paddingLeft: "20px",
-  // };
+const CustomCollapse = ({ textStyle, headerStyle }: any) => {
 
-  // const headerStyle = {
-  //   color: "#fff",
-  //   textAlign: "left",
-  //   fontWeight: 500,
-  //   fontSize: "16px",
-  //   color: "#ec6408",
-  // };
 
   const items = [
     {
@@ -89,7 +76,7 @@ const CustomCollapse = ({ textStyle, headerStyle }) => {
     },
   ];
 
-  const onChange = (key) => { };
+  const onChange = (key: any) => { };
   return (
     <Collapse
       items={items}

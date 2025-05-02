@@ -8,9 +8,9 @@ const Newsletter = () => {
 
     return (
         <>
-            <div className="newsletter-ctn">
+            <div className=" bg-[#ffe7e1] px-[20px] py-[50px] flex gap-4 items-start flex-col md:flex-row md:justify-between " >
                 <div>
-                    <p className="title">Subscribe To Our Newsletter</p>
+                    <p className=" text-[#261f2d] uppercase m-0 text-[30px] font-[600] ">Subscribe To Our Newsletter</p>
                     <p className="sub-title">
                         Get notified about Our Products, New Feature & more
                     </p>

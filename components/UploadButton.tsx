@@ -67,7 +67,6 @@ const UploadButton = ({ value, onChange }) => {
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
-        style={{ tooltip: "none" }}
       >
         {fileList?.length >= 1 ? null : uploadButton}
       </Upload>

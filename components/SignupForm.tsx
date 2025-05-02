@@ -1,21 +1,65 @@
-"use client";
+"use client"
 
-import React, { useEffect, useState } from "react";
-import { useForm, Controller } from "react-hook-form";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { PostMethod } from "@/lib/PostMethod";
-import { FullScreenLoader } from "./FullScreenLoader";
-import AgreementModal from "./AgrementModal";
-import ThankYouModal from "./ThankYouModal";
-import UploadButton from "./UploadButton";
-import Link from "next/link";
+import type React from "react"
+import { useEffect, useState } from "react"
+import { useForm, Controller } from "react-hook-form"
+import PhoneInput from "react-phone-input-2"
+import "react-phone-input-2/lib/style.css"
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
+import { PostMethod } from "@/lib/PostMethod"
+import { FullScreenLoader } from "./FullScreenLoader"
+import AgreementModal from "./AgrementModal"
+import ThankYouModal from "./ThankYouModal"
+import UploadButton from "./UploadButton"
+import Link from "next/link"
 
-const ColorPicker = ({ control, name }) => {
-  const colors = ["#00A9E0", "#DC143C", "#FF6F61", "#32CD32", "#FF4500"];
+interface ColorPickerProps {
+  control: any
+  name: string
+}
 
-  const [selectedColor, setSelectedColor] = useState(" ");
+interface CardTokenInfo {
+  card_token: string | null
+  card_id: string | null
+}
+
+interface FormData {
+  name: string
+  email: string
+  business_name: string
+  address: string
+  city: string
+  state: string
+  country: string
+  mobile: string
+  plan: string
+  primary_color: string
+  signature?: string | null
+  business_logo: any[]
+  card_id?: string | null
+  card_token?: string | null
+  basic_package_type?: string[]
+  domain_name?: string
+  website_name?: string
+  app_name?: string
+}
+
+interface AgreementInfo {
+  name: string
+  phone: string
+  email: string
+  address: string
+  city: string
+  state: string
+  country: string
+  plan: string
+  basic_type?: string[]
+}
+
+const ColorPicker: React.FC<ColorPickerProps> = ({ control, name }) => {
+  const colors = ["#00A9E0", "#DC143C", "#FF6F61", "#32CD32", "#FF4500"]
+
+  const [selectedColor, setSelectedColor] = useState<string>(" ")
 
   return (
     <Controller
@@ -27,13 +71,11 @@ const ColorPicker = ({ control, name }) => {
             {colors.map((color) => (
               <div
                 key={color}
-                className={`compact-color-card ${
-                  field.value === color ? "selected" : ""
-                }`}
+                className={`compact-color-card ${field.value === color ? "selected" : ""}`}
                 style={{ backgroundColor: color }}
                 onClick={() => {
-                  setSelectedColor(color);
-                  field.onChange(color);
+                  setSelectedColor(color)
+                  field.onChange(color)
                 }}
               />
             ))}
@@ -43,46 +85,43 @@ const ColorPicker = ({ control, name }) => {
                 type="color"
                 value={field.value || ""}
                 onChange={(e) => {
-                  const newColor = e.target.value;
-                  setSelectedColor(newColor);
-                  field.onChange(newColor);
+                  const newColor = e.target.value
+                  setSelectedColor(newColor)
+                  field.onChange(newColor)
                 }}
                 onClick={(e) => e.stopPropagation()}
               />
               <span>+</span>
             </div>
           </div>
-          <div
-            className="compact-color-preview"
-            style={{ backgroundColor: selectedColor }}
-          />
+          <div className="compact-color-preview" style={{ backgroundColor: selectedColor }} />
         </div>
       )}
     />
-  );
-};
+  )
+}
 
-const SignupForm = () => {
+const SignupForm: React.FC = () => {
   // Stripe setup
-  const stripe = useStripe();
-  const elements = useElements();
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
+  const stripe = useStripe()
+  const elements = useElements()
+  const apiEndpoint = process.env.NEXT_PUBLIC_API_URL
 
   // Component states
-  const [open, setOpen] = useState(false);
-  const [openThankYou, setOpenThankYou] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [isAgreed, setIsAgreed] = useState(false);
-  const [isPending, setIsPending] = useState(false);
-  const [error, setError] = useState("");
-  const [signatureImg, setSignatureImg] = useState(null);
-  const [agreementID, setAgreementID] = useState(null);
-  const [cardTokenInfo, setCardTokenInfo] = useState({
+  const [open, setOpen] = useState<boolean>(false)
+  const [openThankYou, setOpenThankYou] = useState<boolean>(false)
+  const [isChecked, setIsChecked] = useState<boolean>(false)
+  const [isAgreed, setIsAgreed] = useState<boolean>(false)
+  const [isPending, setIsPending] = useState<boolean>(false)
+  const [error, setError] = useState<string>("")
+  const [signatureImg, setSignatureImg] = useState<string | null>(null)
+  const [agreementID, setAgreementID] = useState<string | null>(null)
+  const [cardTokenInfo, setCardTokenInfo] = useState<CardTokenInfo>({
     card_token: null,
     card_id: null,
-  });
-  const [basicPackageType, setBasicPackageType] = useState(["booking-iframe"]); // Default selected
-  const [formData, setFormData] = useState({
+  })
+  const [basicPackageType, setBasicPackageType] = useState<string[]>(["booking-iframe"]) // Default selected
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
     business_name: "",
@@ -98,8 +137,8 @@ const SignupForm = () => {
     card_id: null,
     card_token: null,
     basic_package_type: [],
-  });
-  const [agreementInfo, setAgreementInfo] = useState({
+  })
+  const [agreementInfo, setAgreementInfo] = useState<AgreementInfo>({
     name: "",
     phone: "",
     email: "",
@@ -108,9 +147,9 @@ const SignupForm = () => {
     state: "",
     country: "",
     plan: "",
-  });
+  })
 
-  const defaultValues = {
+  const defaultValues: FormData = {
     name: "",
     email: "",
     business_name: "",
@@ -124,7 +163,7 @@ const SignupForm = () => {
     signature: "",
     business_logo: [],
     basic_package_type: [],
-  };
+  }
 
   const {
     handleSubmit,
@@ -132,61 +171,70 @@ const SignupForm = () => {
     setValue,
     watch,
     formState: { errors },
-  } = useForm({ defaultValues });
+  } = useForm<FormData>({ defaultValues })
 
   useEffect(() => {
-    setValue("plan", "Standard");
+    setValue("plan", "Standard")
     // setValue("primary_color", " ");
-  }, [setValue]);
+  }, [setValue])
 
-  const handleClose = () => setOpen(false);
-  const handleThankClose = () => setOpenThankYou(false);
-  const handleChange = (event) => setIsChecked(event.target.checked);
+  const handleClose = (): void => setOpen(false)
+  const handleThankClose = (): void => setOpenThankYou(false)
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => setIsChecked(event.target.checked)
 
-  const prepareFormData = (data) => {
-    const formData = new FormData();
+  const prepareFormData = (data: FormData): FormData => {
+    const formData = new FormData()
 
     Object.entries(data).forEach(([key, value]) => {
       if (value !== "" && value !== null && value !== undefined) {
         if (Array.isArray(value)) {
           value.forEach((item, ind) => {
-            formData.append(`${key}[${ind}]`, item);
-          });
+            formData.append(`${key}[${ind}]`, item)
+          })
         } else {
-          formData.append(key, value);
+          formData.append(key, value as string)
         }
       }
-    });
+    })
 
-    return formData;
-  };
-  const createCardToken = async () => {
-    const cardElement = elements.getElement(CardElement);
-    const { error, token } = await stripe.createToken(cardElement);
-    if (error) throw new Error(error.message);
+    return formData as unknown as FormData
+  }
+
+  const createCardToken = async (): Promise<any> => {
+    if (!stripe || !elements) {
+      throw new Error("Stripe or Elements not initialized")
+    }
+
+    const cardElement = elements.getElement(CardElement)
+    if (!cardElement) {
+      throw new Error("Card Element not found")
+    }
+
+    const { error, token } = await stripe.createToken(cardElement)
+    if (error) throw new Error(error.message)
     if (token) {
-      setCardTokenInfo({ card_token: token.id, card_id: token.card.id });
+      setCardTokenInfo({ card_token: token.id, card_id: token.card.id })
       setFormData((prev) => ({
         ...prev,
         card_token: token.id,
         card_id: token.card.id,
-      }));
-      return token;
+      }))
+      return token
     }
-  };
+  }
 
-  const onSubmit = async (data) => {
-    setError("");
-    console.log(data);
+  const onSubmit = async (data: FormData): Promise<void> => {
+    setError("")
+    console.log(data)
     try {
       const updatedData = {
         ...data,
         signature: signatureImg && signatureImg,
-        ...(data?.domain_name != "" && { domain_name: data?.domain_name }),
-        ...(data?.plan == "Basic" && { basic_package_type: basicPackageType }),
+        ...(data?.domain_name !== "" && { domain_name: data?.domain_name }),
+        ...(data?.plan === "Basic" && { basic_package_type: basicPackageType }),
         ...(data?.primary_color && { primary_color: data?.primary_color }),
-      };
-      setFormData(updatedData);
+      }
+      setFormData(updatedData)
       setAgreementInfo({
         name: updatedData.name,
         phone: updatedData.mobile,
@@ -197,51 +245,49 @@ const SignupForm = () => {
         country: updatedData.country,
         plan: updatedData.plan,
         basic_type: updatedData.basic_package_type,
-      });
+      })
 
       if (!cardTokenInfo.card_id && !cardTokenInfo.card_token) {
-        await createCardToken();
+        await createCardToken()
       }
 
       if (!isAgreed) {
-        setOpen(true);
-        return;
+        setOpen(true)
+        return
       }
 
-      setIsPending(true);
-      const formData = prepareFormData(updatedData);
-      formData.append("card_token", cardTokenInfo.card_token);
-      formData.append("card_id", cardTokenInfo.card_id);
+      setIsPending(true)
+      const formDataToSend = prepareFormData(updatedData)
+        ; (formDataToSend as any).append("card_token", cardTokenInfo.card_token)
+        ; (formDataToSend as any).append("card_id", cardTokenInfo.card_id)
 
-      const response = await PostMethod(`${apiEndpoint}/register`, formData);
-      console.log("Response:", response);
-      setAgreementID(response?.data?.agreement_id);
-      setIsPending(false);
-      setOpenThankYou(true);
-    } catch (error) {
-      console.error(error);
-      setError(error.response?.data?.message || error?.t?.message);
-      setIsPending(false);
+      const response = await PostMethod(`${apiEndpoint}/register`, formDataToSend)
+      console.log("Response:", response)
+      setAgreementID(response?.data?.agreement_id)
+      setIsPending(false)
+      setOpenThankYou(true)
+    } catch (error: any) {
+      console.error(error)
+      setError(error.response?.data?.message || error?.message || "An error occurred")
+      setIsPending(false)
     }
-  };
+  }
 
-  const handleFinalSubmit = async (data) => {
+  const handleFinalSubmit = async (data: FormData): Promise<void> => {
     try {
-      setIsPending(true);
-      if (signatureImg) {
-      }
-      const dataToSend = prepareFormData(data);
-      const response = await PostMethod(`${apiEndpoint}/register`, dataToSend);
-      console.log("Response:", response);
-      setIsPending(false);
-      setAgreementID(response?.data?.agreement_id);
-      setOpenThankYou(true);
-    } catch (error) {
-      console.error(error);
-      setError(error.response?.data?.message);
-      setIsPending(false);
+      setIsPending(true)
+      const dataToSend = prepareFormData(data)
+      const response = await PostMethod(`${apiEndpoint}/register`, dataToSend)
+      console.log("Response:", response)
+      setIsPending(false)
+      setAgreementID(response?.data?.agreement_id)
+      setOpenThankYou(true)
+    } catch (error: any) {
+      console.error(error)
+      setError(error.response?.data?.message || "An error occurred")
+      setIsPending(false)
     }
-  };
+  }
 
   const CARD_OPTIONS = {
     style: {
@@ -259,20 +305,20 @@ const SignupForm = () => {
       invalid: { color: "#fa755a", iconColor: "#fa755a" },
     },
     hidePostalCode: true,
-    iconStyle: "solid",
-  };
+    iconStyle: "solid" as "solid",
+  }
 
-  const handleBasicToggle = (e) => {
-    const { name, checked } = e.target;
+  const handleBasicToggle = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    const { name, checked } = e.target
 
     setBasicPackageType((prev) => {
       if (checked) {
-        return prev.length < 3 ? [...prev, name] : prev;
+        return prev.length < 3 ? [...prev, name] : prev
       } else {
-        return prev.length > 1 ? prev.filter((item) => item !== name) : prev;
+        return prev.length > 1 ? prev.filter((item) => item !== name) : prev
       }
-    });
-  };
+    })
+  }
 
   return (
     <div className="signupform-wrapper">
@@ -295,10 +341,7 @@ const SignupForm = () => {
                   className="card"
                   onClick={() => field.onChange("Basic")}
                   style={{
-                    border:
-                      field.value === "Basic"
-                        ? "2px solid green"
-                        : "1px solid #ccc",
+                    border: field.value === "Basic" ? "2px solid green" : "1px solid #ccc",
                   }}
                 >
                   <input
@@ -308,10 +351,8 @@ const SignupForm = () => {
                     onChange={() => field.onChange("Basic")}
                     style={{ display: "none" }}
                   />
-                  <label style={{ fontSize: "15px", fontWeight: "bold" }}>
-                    Basic
-                  </label>
-                  <label style={{ fontSize: "22px", fontWeight: "800" }}>
+                  <label style={{ fontSize: "15px", fontWeight: "bold", textAlign: "center" }}>Basic</label>
+                  <div style={{ fontSize: "22px", fontWeight: "800", textAlign: "center" }}>
                     $99 <br />
                     <span
                       style={{
@@ -323,16 +364,13 @@ const SignupForm = () => {
                     >
                       /month
                     </span>
-                  </label>
+                  </div>
                 </div>
                 <div
                   className="card"
                   onClick={() => field.onChange("Standard")}
                   style={{
-                    border:
-                      field.value === "Standard"
-                        ? "2px solid green"
-                        : "1px solid #ccc",
+                    border: field.value === "Standard" ? "2px solid green" : "1px solid #ccc",
                   }}
                 >
                   <input
@@ -342,10 +380,8 @@ const SignupForm = () => {
                     onChange={() => field.onChange("Standard")}
                     style={{ display: "none" }}
                   />
-                  <label style={{ fontSize: "15px", fontWeight: "bold" }}>
-                    Standard
-                  </label>
-                  <label style={{ fontSize: "22px", fontWeight: "800" }}>
+                  <label style={{ fontSize: "15px", fontWeight: "bold", textAlign: "center" }}>Standard</label>
+                  <div style={{ fontSize: "22px", fontWeight: "800", textAlign: "center" }}>
                     $149 <br />
                     <span
                       style={{
@@ -357,16 +393,13 @@ const SignupForm = () => {
                     >
                       /month
                     </span>
-                  </label>
+                  </div>
                 </div>
                 <div
                   className="card"
                   onClick={() => field.onChange("Premium")}
                   style={{
-                    border:
-                      field.value === "Premium"
-                        ? "2px solid green"
-                        : "1px solid #ccc",
+                    border: field.value === "Premium" ? "2px solid green" : "1px solid #ccc",
                   }}
                 >
                   <input
@@ -376,10 +409,8 @@ const SignupForm = () => {
                     onChange={() => field.onChange("Premium")}
                     style={{ display: "none" }}
                   />
-                  <label style={{ fontSize: "15px", fontWeight: "bold" }}>
-                    Premium
-                  </label>
-                  <label style={{ fontSize: "22px", fontWeight: "800" }}>
+                  <label style={{ fontSize: "15px", fontWeight: "bold", textAlign: "center" }}>Premium</label>
+                  <div style={{ fontSize: "22px", fontWeight: "800", textAlign: "center" }}>
                     $199 <br />
                     <span
                       style={{
@@ -391,7 +422,7 @@ const SignupForm = () => {
                     >
                       /month
                     </span>
-                  </label>
+                  </div>
                 </div>
               </div>
             )}
@@ -399,9 +430,7 @@ const SignupForm = () => {
 
           {watch("plan") === "Basic" && (
             <div style={{ marginTop: "20px" }} className="form-group">
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <input
                   style={{ width: "max-content" }}
                   type="checkbox"
@@ -411,29 +440,11 @@ const SignupForm = () => {
                   onChange={handleBasicToggle}
                 />
                 <label style={{ fontWeight: "400" }} htmlFor="">
-                  <span style={{ fontWeight: "700" }}>Booking Iframe</span> –
-                  Embed the booking form on your website using an iframe.
+                  <span style={{ fontWeight: "700" }}>Booking Iframe</span> – Embed the booking form on your website
+                  using an iframe.
                 </label>
               </div>
-              {/* <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <input
-                  style={{ width: "max-content" }}
-                  type="checkbox"
-                  name="booking-link"
-                  id="link"
-                  checked={basicPackageType.includes("booking-link")}
-                  onChange={handleBasicToggle}
-                />
-                <label style={{ fontWeight: "400" }} htmlFor="">
-                  <span style={{ fontWeight: "700" }}>Booking Link</span> – Get
-                  a direct link to your booking page.
-                </label>
-              </div> */}
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <input
                   style={{ width: "max-content" }}
                   type="checkbox"
@@ -443,8 +454,8 @@ const SignupForm = () => {
                   onChange={handleBasicToggle}
                 />
                 <label style={{ fontWeight: "400" }} htmlFor="">
-                  <span style={{ fontWeight: "700" }}> Website</span> – Includes
-                  both the iframe and a standalone web booking page.
+                  <span style={{ fontWeight: "700" }}> Website</span> – Includes both the iframe and a standalone web
+                  booking page.
                 </label>
               </div>
             </div>
@@ -468,7 +479,6 @@ const SignupForm = () => {
           <label htmlFor="name">Name</label>
           <Controller
             name="name"
-            id="name"
             control={control}
             rules={{ required: "Full Name is required" }}
             render={({ field }) => (
@@ -482,9 +492,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.name && (
-            <p className="error-message">*{errors.name.message}</p>
-          )}
+          {errors.name && <p className="error-message">*{errors.name.message}</p>}
         </div>
 
         <div>
@@ -499,17 +507,13 @@ const SignupForm = () => {
                 country={"us"}
                 value={field.value}
                 onChange={(phone) => field.onChange("+" + phone)}
-                className={` w-full ${
-                  errors.phone
-                    ? "border-red-500 border-[2px]"
-                    : "border-[#cccccc] border-[1px]"
-                } bg-light_gray mt-[5px] rounded-[4px]`}
+                containerClass={`w-full ${errors.mobile ? "border-red-500 border-[2px]" : "border-[#cccccc] border-[1px]"
+                  }`}
+                inputClass="bg-light_gray mt-[5px] rounded-[4px]"
               />
             )}
           />
-          {errors.mobile && (
-            <p className="error-message">*{errors.mobile.message}</p>
-          )}
+          {errors.mobile && <p className="error-message">*{errors.mobile.message}</p>}
         </div>
 
         <div>
@@ -522,18 +526,14 @@ const SignupForm = () => {
               <input
                 type="email"
                 style={{
-                  border: errors.email
-                    ? "1px solid rgba(255, 0, 0, 0.712)"
-                    : "",
+                  border: errors.email ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                 }}
                 placeholder="johndoe@example.com"
                 {...field}
               />
             )}
           />
-          {errors.email && (
-            <p className="error-message">*{errors.email.message}</p>
-          )}
+          {errors.email && <p className="error-message">*{errors.email.message}</p>}
         </div>
 
         <div>
@@ -545,9 +545,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <input
                 style={{
-                  border: errors.business_name
-                    ? "1px solid rgba(255, 0, 0, 0.712)"
-                    : "",
+                  border: errors.business_name ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                 }}
                 type="text"
                 placeholder="ABC Company"
@@ -555,9 +553,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.business_name && (
-            <p className="error-message">*{errors.business_name.message}</p>
-          )}
+          {errors.business_name && <p className="error-message">*{errors.business_name.message}</p>}
         </div>
 
         <div>
@@ -569,9 +565,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <input
                 style={{
-                  border: errors.address
-                    ? "1px solid rgba(255, 0, 0, 0.712)"
-                    : "",
+                  border: errors.address ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                 }}
                 type="text"
                 placeholder="Business Address"
@@ -579,9 +573,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.address && (
-            <p className="error-message">*{errors.address.message}</p>
-          )}
+          {errors.address && <p className="error-message">*{errors.address.message}</p>}
         </div>
 
         <div>
@@ -601,9 +593,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.city && (
-            <p className="error-message">*{errors.city.message}</p>
-          )}
+          {errors.city && <p className="error-message">*{errors.city.message}</p>}
         </div>
 
         <div>
@@ -615,9 +605,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <input
                 style={{
-                  border: errors.state
-                    ? "1px solid rgba(255, 0, 0, 0.712)"
-                    : "",
+                  border: errors.state ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                 }}
                 type="text"
                 placeholder="State"
@@ -625,9 +613,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.state && (
-            <p className="error-message">*{errors.state.message}</p>
-          )}
+          {errors.state && <p className="error-message">*{errors.state.message}</p>}
         </div>
 
         <div>
@@ -639,9 +625,7 @@ const SignupForm = () => {
             render={({ field }) => (
               <input
                 style={{
-                  border: errors.country
-                    ? "1px solid rgba(255, 0, 0, 0.712)"
-                    : "",
+                  border: errors.country ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                 }}
                 type="text"
                 placeholder="Country"
@@ -649,9 +633,7 @@ const SignupForm = () => {
               />
             )}
           />
-          {errors.country && (
-            <p className="error-message">*{errors.country.message}</p>
-          )}
+          {errors.country && <p className="error-message">*{errors.country.message}</p>}
         </div>
 
         {basicPackageType?.includes("booking-website") && (
@@ -666,9 +648,7 @@ const SignupForm = () => {
               render={({ field }) => (
                 <input
                   style={{
-                    border: errors.domain_name
-                      ? "1px solid rgba(255, 0, 0, 0.712)"
-                      : "",
+                    border: errors.domain_name ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                   }}
                   type="text"
                   placeholder="Domain Name"
@@ -676,9 +656,7 @@ const SignupForm = () => {
                 />
               )}
             />
-            {errors.domain_name && (
-              <p className="error-message">*{errors.domain_name.message}</p>
-            )}
+            {errors.domain_name && <p className="error-message">*{errors.domain_name.message}</p>}
           </div>
         )}
 
@@ -691,14 +669,8 @@ const SignupForm = () => {
             <label htmlFor="business_logo">
               Business Logo <span className="optional">(optional)</span>
             </label>
-            <Controller
-              name="business_logo"
-              control={control}
-              render={({ field }) => <UploadButton {...field} />}
-            />
-            {errors.business_logo && (
-              <p className="error-message">*{errors.business_logo.message}</p>
-            )}
+            <Controller name="business_logo" control={control} render={({ field }) => <UploadButton {...field} />} />
+            {errors.business_logo && <p className="error-message">*{errors.business_logo.message}</p>}
           </div>
 
           <div className="form-field">
@@ -708,7 +680,7 @@ const SignupForm = () => {
             <ColorPicker control={control} name="primary_color" />
           </div>
 
-          <div>
+          <div className="mt-[30px]">
             <label htmlFor="website_name">
               Website Name
               <span style={{ fontWeight: "500" }}>(optional)</span>{" "}
@@ -719,22 +691,18 @@ const SignupForm = () => {
               render={({ field }) => (
                 <input
                   style={{
-                    border: errors.website_name
-                      ? "1px solid rgba(255, 0, 0, 0.712)"
-                      : "",
+                    border: errors.website_name ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                   }}
                   type="text"
-                  placeholder="Domain Name"
+                  placeholder="Website Name"
                   {...field}
                 />
               )}
             />
-            {errors.website_name && (
-              <p className="error-message">*{errors.domain_name.message}</p>
-            )}
+            {errors.website_name && <p className="error-message">*{errors.website_name.message}</p>}
           </div>
 
-          <div>
+          <div className="mt-4">
             <label htmlFor="app_name">
               App Name
               <span style={{ fontWeight: "500" }}>(optional)</span>{" "}
@@ -745,9 +713,7 @@ const SignupForm = () => {
               render={({ field }) => (
                 <input
                   style={{
-                    border: errors.app_name
-                      ? "1px solid rgba(255, 0, 0, 0.712)"
-                      : "",
+                    border: errors.app_name ? "1px solid rgba(255, 0, 0, 0.712)" : "",
                   }}
                   type="text"
                   placeholder="App Name"
@@ -755,9 +721,7 @@ const SignupForm = () => {
                 />
               )}
             />
-            {errors.app_name && (
-              <p className="error-message">*{errors.app_name.message}</p>
-            )}
+            {errors.app_name && <p className="error-message">*{errors.app_name.message}</p>}
           </div>
         </div>
 
@@ -798,11 +762,7 @@ const SignupForm = () => {
           </p>
         </div>
 
-        {error && (
-          <p style={{ color: "red", fontStyle: "italic", fontSize: "15px" }}>
-            *{error}
-          </p>
-        )}
+        {error && <p style={{ color: "red", fontStyle: "italic", fontSize: "15px" }}>*{error}</p>}
 
         <button
           style={{
@@ -834,7 +794,6 @@ const SignupForm = () => {
         info={agreementInfo}
         open={openThankYou}
         agreementID={agreementID}
-        // open={true}
         handleClose={handleThankClose}
       />
 
@@ -842,7 +801,7 @@ const SignupForm = () => {
         <FullScreenLoader isLoading={isPending} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignupForm;
+export default SignupForm

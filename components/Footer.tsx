@@ -24,30 +24,34 @@ export default function Footer() {
     const scriptSD = document.createElement("script");
     scriptSD.async = true;
     scriptSD.src = "https://b.sf-syn.com/badge_js?sf_id=3707150&variant_id=sd";
-    document
-      .getElementsByTagName("script")[0]
-      .parentNode.insertBefore(
+    const firstScript = document.getElementsByTagName("script")[0];
+    if (firstScript?.parentNode) {
+      firstScript.parentNode.insertBefore(
         scriptSD,
         document.getElementsByTagName("script")[0]
       );
+    } // This closing brace was missing
 
     const scriptSF = document.createElement("script");
     scriptSF.async = true;
     scriptSF.src = "https://b.sf-syn.com/badge_js?sf_id=3707150&variant_id=sf";
-    document
-      .getElementsByTagName("script")[0]
-      .parentNode.insertBefore(
+    const firstScriptParent = document.getElementsByTagName("script")[0]?.parentNode;
+    if (firstScriptParent) {
+      firstScriptParent.insertBefore(
         scriptSF,
         document.getElementsByTagName("script")[0]
       );
+    }
 
     return () => {
-      document
-        .getElementsByTagName("script")[0]
-        .parentNode.removeChild(scriptSD);
-      document
-        .getElementsByTagName("script")[0]
-        .parentNode.removeChild(scriptSF);
+      const firstScript = document.getElementsByTagName("script")[0];
+      if (firstScript?.parentNode) {
+        firstScript.parentNode.removeChild(scriptSD);
+      }
+      const scriptParent = document.getElementsByTagName("script")[0]?.parentNode;
+      if (scriptParent) {
+        scriptParent.removeChild(scriptSF);
+      }
     };
   }, []);
 
@@ -63,7 +67,7 @@ export default function Footer() {
             <div>
               <ul className="space-y-2 max-md:text-center">
                 <li>
-                  <Link href="#" className="hover:underline">
+                  <Link href="/contact-us" className="hover:underline">
                     Contact US
                   </Link>
                 </li>
@@ -153,15 +157,41 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-            <div className="flex gap-5 text-2xl mt-4">
-              <FaFacebookF className="hover:text-gray-400 cursor-pointer" />
-              <FaTwitter className="hover:text-gray-400 cursor-pointer" />
-              <FaYoutube className="hover:text-gray-400 cursor-pointer" />
-              <FaInstagram className="hover:text-gray-400 cursor-pointer" />
-              <FaTiktok className="hover:text-gray-400 cursor-pointer" />
-              <FaLinkedinIn className="hover:text-gray-400 cursor-pointer" />
-              <FaPinterestP className="hover:text-gray-400 cursor-pointer" />
-              <IoMdStar className="hover:text-gray-400 cursor-pointer" />
+            <div className="flex flex-wrap justify-center items-center gap-5 text-2xl mt-4">
+              <Link target="_blank" href="https://www.facebook.com/profile.php?id=61559798663626">
+                <FaFacebookF className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+              <Link target="_blank" href="https://twitter.com/taxi_web" >
+
+                <FaTwitter className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+              <Link target="_blank" href="https://www.youtube.com/channel/UCRcHPCq0SDF0LelKMbZI46Q" >
+                <FaYoutube className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+              <Link target="_blank"
+                href="https://www.instagram.com/atozdispatch">
+                <FaInstagram className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+              <Link href="https://www.tiktok.com/@atozdispatch" target="_blank" >
+                <FaTiktok className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+              <Link href="https://www.linkedin.com/company/atozdispatch/" target="_blank" >
+                <FaLinkedinIn className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+              <Link target="_blank" href="https://www.pinterest.com/atozdispatch/?invite_code=066345f32ee44f2d806f567fb0e4babb&sender=1021472896641629964">
+                <FaPinterestP className="hover:text-gray-400 cursor-pointer" />
+              </Link>
+
+
+              <Link target="_blank" href="https://www.pinterest.com/atozdispatch/?invite_code=066345f32ee44f2d806f567fb0e4babb&sender=1021472896641629964">
+                <img className="w-[60px] object-contain h-[50px]" src="/images/trust.png" alt="" />
+              </Link>
+
             </div>
           </div>
 

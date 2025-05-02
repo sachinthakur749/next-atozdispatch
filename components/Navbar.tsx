@@ -5,20 +5,18 @@ import React from 'react';
 
 const Navbar = () => {
     return (
-        <nav className="sticky top-0 left-0 right-0 z-[99] bg-white/70 backdrop-blur-sm py-2">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-                {/* Logo */}
+        <nav className="sticky top-0 left-0 right-0 z-[99] border-[1px] border-[#eeeeee] bg-white/70 backdrop-blur-sm py-2">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6  flex items-center justify-between">
                 <div className="flex items-center">
                     <Link href="/">
                         <Image alt="logo" src="/images/logo.png" width={130} height={40} />
                     </Link>
                 </div>
 
-                {/* Links */}
                 <div className="flex items-center space-x-3">
                     <Link
                         href="#requestDemoSection"
-                        className="flex items-center bg-[#329b74] text-white px-4 py-2 text-sm sm:text-base transition"
+                        className=" hidden md:flex items-center bg-[#329b74] text-white px-4 py-2 text-sm sm:text-base transition"
                     >
                         <Lightbulb className="mr-2" size={18} />
                         Request Demo

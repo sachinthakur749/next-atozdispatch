@@ -48,7 +48,7 @@ export default function ClientsSection() {
 
 
                 <div className="flex flex-col p-4 items-center gap-2">
-                    <Link href="https://www.trustpilot.com/review/atozdispatch.com">
+                    <Link target="_blank" href="https://www.trustpilot.com/review/atozdispatch.com">
                         <Image
                             src="/images/trust.png"
                             alt="Trustpilot"
@@ -59,8 +59,8 @@ export default function ClientsSection() {
                     </Link>
                 </div>
             </div>
-            <div className="flex justify-center items-center mt-10">
-                <video width="50%" className="video-frame" controls={true}>
+            <div className="flex w-[100%] md:w-[50%] m-auto justify-center items-center mt-10">
+                <video width="100%" className="video-frame" controls={true}>
                     <source src="/videos/ATOZ_DISPATCH_SYSTEM.mp4" type="video/mp4" />
                     Your browser does not support HTML video.
                 </video>

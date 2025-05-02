@@ -1,3 +1,5 @@
+"use client";
+
 import { Button, Modal } from "antd";
 import React, { useRef, useState } from "react";
 import { TiTimes } from "react-icons/ti";
@@ -5,7 +7,28 @@ import SignatureCanvas from "react-signature-canvas";
 import { IoMdCloudUpload } from "react-icons/io";
 import { IoIosSave } from "react-icons/io";
 
-const AgreementModal = ({
+interface AgreementModalProps {
+  open: boolean;
+  handleClose: () => void;
+  agreementInfo: {
+    name: string;
+    address: string;
+    country: string;
+    phone?: string;
+    email?: string;
+    city?: string;
+    state?: string;
+    plan?: string;
+  };
+  handleSubmission: (data: any) => void;
+  setSignatureImg: (img: string | null) => void;
+  setFormData: (data: any) => void;
+  formData: any;
+  setIsAgreed: (agreed: boolean) => void;
+  isAgreed: boolean;
+}
+
+const AgreementModal: React.FC<AgreementModalProps> = ({
   open,
   handleClose,
   agreementInfo,
@@ -16,21 +39,22 @@ const AgreementModal = ({
   setIsAgreed,
   isAgreed,
 }) => {
-  const sigCanvas = useRef({});
-  const inputRef = useRef();
-  const [signature, setSignature] = useState(null);
+  const sigCanvas = useRef<any>({});
+  const inputRef = useRef<any>(null);
+  const [signature, setSignature] = useState<any>(null);
   const [isImageInput, setIsImageInput] = useState(false);
   const [errorState, setErrorState] = useState({
     isError: false,
     errorMessage: "",
   });
 
-  const handleSignImage = (event) => {
-    const file = event.target.files[0];
+  const handleSignImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSignature(reader.result);
+        setSignature(reader.result as string);
         setIsImageInput(true);
         setErrorState({
           isError: false,
@@ -58,7 +82,6 @@ const AgreementModal = ({
     });
     setIsImageInput(false);
   };
-
   const save = () => {
     setErrorState({
       isError: false,
@@ -70,7 +93,7 @@ const AgreementModal = ({
     setSignature(signatureData);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     if (!signature) {
       setErrorState({
@@ -92,7 +115,7 @@ const AgreementModal = ({
     handleSubmission(updatedFormData);
   };
 
-  const getPlanPrice = (plan) => {
+  const getPlanPrice = (plan: string | undefined) => {
     let price;
     switch (plan) {
       case "basic":
@@ -686,7 +709,6 @@ const AgreementModal = ({
             <button
               onClick={handleSubmit}
               className="header-outlined-btn"
-              size="small"
               type="submit"
             >
               I Agree

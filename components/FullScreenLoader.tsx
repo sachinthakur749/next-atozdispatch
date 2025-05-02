@@ -1,6 +1,10 @@
 import { Spin } from "antd";
 
-export const FullScreenLoader = ({ isLoading }) => {
+interface FullScreenLoaderProps {
+  isLoading: boolean;
+}
+
+export const FullScreenLoader = ({ isLoading }: FullScreenLoaderProps) => {
   if (!isLoading) return null;
 
   return (

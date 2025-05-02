@@ -4,11 +4,11 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { getRequest } from "@/lib/APIHelper";
 import Link from "next/link";
 
-const ThankYouModal = ({ open, handleClose, info, agreementID }) => {
+const ThankYouModal = ({ open, handleClose, info, agreementID }: any) => {
   const [isPending, setIsPending] = useState(false);
   const apiEndpoint = process.env.REACT_APP_API_ENDPOINT;
 
-  const handleDownload = async (e) => {
+  const handleDownload = async (e: any) => {
     e.preventDefault();
     setIsPending(true);
     try {
@@ -46,7 +46,7 @@ const ThankYouModal = ({ open, handleClose, info, agreementID }) => {
         onCancel={handleClose}
       >
         <div className="thank-you-ctn" style={{ padding: "24px" }}>
-          <div style={{ textAlign: "center", margipnBottom: "24px" }}>
+          <div style={{ textAlign: "center", marginBottom: "24px" }}>
             <div
               style={{
                 display: "flex",
@@ -118,7 +118,7 @@ const ThankYouModal = ({ open, handleClose, info, agreementID }) => {
                   const endDate = new Date(today);
                   endDate.setDate(today.getDate() + 30);
 
-                  const formatDate = (date) => {
+                  const formatDate = (date: any) => {
                     return (
                       date.toISOString().split("T")[0] +
                       " " +
@@ -149,8 +149,8 @@ const ThankYouModal = ({ open, handleClose, info, agreementID }) => {
                         {info?.plan === "Basic"
                           ? 99
                           : info?.plan === "Standard"
-                          ? 149
-                          : 199}
+                            ? 149
+                            : 199}
                       </li>
                       <li style={{ marginBottom: "0" }}>
                         You will be automatically charged on{" "}
